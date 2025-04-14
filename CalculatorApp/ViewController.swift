@@ -80,7 +80,7 @@ class ViewController: UIViewController {
         }
     @objc func buttonTapped(_ sender: UIButton) {
         if let title = sender.title(for: .normal) {
-            print(title)
+            resultLabel.text = title // 결과레이블에 누른 버튼의 텍스트 출력하기
         }
     }
 }
