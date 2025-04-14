@@ -35,8 +35,53 @@ class ViewController: UIViewController {
     }
 
     func setupCalculatorButtons() {
+        let buttonTitles = [
+            "1", "2", "3", "+",
+            "4", "5", "6", "-",
+            "7", "8", "9", "×",
+            "", "0", "", "÷",
+            "", "", "", "="
+        ]
         
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 40
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(stackView)
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 20),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+        
+        var rowStackViews: [UIStackView] = []
+        
+        for (index, title) in buttonTitles.enumerated() {
+            let button = createButton(withTitle: title)
+            
+            if index % 4 == 0 {
+                let rowStackView = UIStackView()
+                rowStackView.axis = .horizontal
+                rowStackView.spacing = 10
+                rowStackView.distribution = .fillEqually
+                rowStackViews.append(rowStackView)
+                stackView.addArrangedSubview(rowStackView)
+            }
+            
+            rowStackViews[index / 4].addArrangedSubview(button)
+        }
     }
-    
+        func createButton(withTitle title: String) -> UIButton {
+            let button = UIButton(type: .system)
+                button.setTitle(title, for: .normal)
+                button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
+                return button
+        }
+    @objc func buttonTapped(_ sender: UIButton) {
+        if let title = sender.title(for: .normal) {
+            print(title)
+        }
+    }
 }
 
